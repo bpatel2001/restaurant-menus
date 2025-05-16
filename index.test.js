@@ -122,4 +122,19 @@ describe('Restaurant and Menu Models', () => {
         const deletedItem = await Item.findAll();
         expect(deletedItem.length).toEqual(0);
     });
+
+    // Eager Loading - Attempt
+    test('can find all Menus and include their Items', async () => {
+        // TODO - write test
+        const restaurant = await Restaurant.create(seedRestaurant[0]);
+        const menu = await restaurant.createMenu(seedMenu[0]);
+        const item = await Item.create(seedItem[0]);
+        await menu.addItem(item);
+        const menus = await Menu.findAll({
+            include: Item
+        });
+        expect(menus.length).toEqual(3);
+        expect(menus[2].Items.length).toEqual(1);
+    });
+
 });
